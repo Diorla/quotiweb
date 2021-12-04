@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import drawer from "./drawer";
-import { drawerWidth } from "./drawerWidth";
+import { drawerWidth } from "../../constants/drawerWidth";
 
 export default function SideBar({
   container,

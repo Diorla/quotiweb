@@ -9,21 +9,26 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@date-io/dayjs": "^2.11.0",
     "@emotion/cache": "latest",
     "@emotion/react": "latest",
     "@emotion/server": "latest",
     "@emotion/styled": "latest",
     "@mui/icons-material": "latest",
-    "@mui/material": "latest",
+    "@mui/lab": "^5.0.0-alpha.58",
+    "@mui/material": "^5.2.2",
+    "dayjs": "^1.10.7",
     "firebase": "7",
     "firebase-admin": "9",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-toastify": "^8.1.0"
+    "react-toastify": "^8.1.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/react": "latest",
+    "@types/uuid": "^8.3.3",
     "eslint": "latest",
     "eslint-config-next": "latest",
     "typescript": "latest"

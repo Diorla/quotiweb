@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { BoxProps } from "@mui/system";
-import { drawerWidth } from "./drawerWidth";
+import { drawerWidth } from "../../constants/drawerWidth";
 
 export default function Body({ children }: BoxProps) {
   return (

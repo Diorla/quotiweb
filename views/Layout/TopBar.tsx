@@ -3,7 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { drawerWidth } from "./drawerWidth";
+import { drawerWidth } from "../../constants/drawerWidth";
 import styled from "@emotion/styled";
 import AddIcon from "@mui/icons-material/Add";
 import { Home, Notifications } from "@mui/icons-material";

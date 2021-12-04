@@ -5,6 +5,11 @@ import { Box } from "@mui/material";
 import Body from "./Body";
 import SideBar from "./SideBar";
 import TopBar from "./TopBar";
+import CategoryForm from "./CategoryForm";
+import ActivityForm from "./ActivityForm";
+import { ToastContainer } from "react-toastify";
+import DateAdapter from "@mui/lab/AdapterDayjs";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
 
 export default function Layout(props: Props) {
   const {
@@ -25,23 +30,30 @@ export default function Layout(props: Props) {
 
   if (uid)
     return (
-      <Box sx={{ display: "flex" }}>
-        <TopBar
-          handleDrawerToggle={handleDrawerToggle}
-          openCategory={() => setCategoryOpen(true)}
-          openActivity={() => setActivityOpen(true)}
-        />
-        <SideBar
-          container={container}
-          mobileOpen={mobileOpen}
-          handleDrawerToggle={handleDrawerToggle}
-        />
-        <Body>
-          {categoryOpen && <div>Category open</div>}
-          {activityOpen && <div>Activity open</div>}
-          <Box>{children}</Box>
-        </Body>
-      </Box>
+      <LocalizationProvider dateAdapter={DateAdapter}>
+        <Box sx={{ display: "flex" }}>
+          <TopBar
+            handleDrawerToggle={handleDrawerToggle}
+            openCategory={() => setCategoryOpen(true)}
+            openActivity={() => setActivityOpen(true)}
+          />
+          <SideBar
+            container={container}
+            mobileOpen={mobileOpen}
+            handleDrawerToggle={handleDrawerToggle}
+          />
+          <Body>
+            {categoryOpen && (
+              <CategoryForm closeForm={() => setCategoryOpen(false)} />
+            )}
+            {activityOpen && (
+              <ActivityForm closeForm={() => setActivityOpen(false)} />
+            )}
+            <Box>{children}</Box>
+            <ToastContainer />
+          </Body>
+        </Box>
+      </LocalizationProvider>
     );
   return <div>Log in</div>;
 }
