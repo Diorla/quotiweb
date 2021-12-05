@@ -24,26 +24,24 @@ export default function Confirm({
   cancelTitle?: string;
 }) {
   return (
-    <div>
-      <Dialog
-        open={open}
-        onClose={onCancel}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {message}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={onCancel}>{cancelTitle || "Cancel"}</Button>
-          <Button onClick={onAccept} autoFocus>
-            {acceptTitle || "OK"}
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+    <Dialog
+      open={open}
+      onClose={onCancel}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          {message}
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onCancel}>{cancelTitle || "Cancel"}</Button>
+        <Button onClick={onAccept} autoFocus>
+          {acceptTitle || "OK"}
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }

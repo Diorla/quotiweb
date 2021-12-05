@@ -11,4 +11,5 @@ export default interface Category {
   priority: Priority;
   notes: string[];
   attachments: string[];
+  updated?: string;
 }

@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Activities from "views/Activities";
 import Layout from "views/Layout";
 
-const home: NextPage = () => {
+const activities: NextPage = () => {
   return (
     <Layout path="activities">
       <Activities />
@@ -10,4 +10,4 @@ const home: NextPage = () => {
   );
 };
 
-export default home;
+export default activities;

@@ -1,13 +1,13 @@
 import type { NextPage } from "next";
-import Categories from "views/Categories";
+import Category from "views/Category";
 import Layout from "views/Layout";
 
-const categories: NextPage = () => {
+const category: NextPage = () => {
   return (
     <Layout path="categories">
-      <Categories />
+      <Category />
     </Layout>
   );
 };
 
-export default categories;
+export default category;
