@@ -9,6 +9,7 @@ import generateColor from "scripts/generateColor";
 import createCategory from "../../services/createCategory";
 import FormWrapper from "../../components/FormWrapper";
 import FormButton from "../../components/FormButton";
+import { v4 } from "uuid";
 
 const InputColor = styled.input`
   border: none;
@@ -36,6 +37,7 @@ export default function CategoryForm({ closeForm }: { closeForm: () => void }) {
 
   const [error, setError] = useState("");
   const [category, setCategory] = useState<Category>({
+    id: v4(),
     name: "",
     description: "",
     priority: 0,
@@ -44,6 +46,7 @@ export default function CategoryForm({ closeForm }: { closeForm: () => void }) {
     created: "",
     notes: [],
     attachments: [],
+    slug: "",
   });
   return (
     <ClickAwayListener onClickAway={closeForm}>

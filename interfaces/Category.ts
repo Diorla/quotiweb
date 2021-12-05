@@ -2,6 +2,7 @@ import Priority from "./Priority";
 
 export default interface Category {
   id: string;
+  slug: string;
   name: string;
   icon: string;
   color: string;

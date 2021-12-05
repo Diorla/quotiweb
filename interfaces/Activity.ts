@@ -71,4 +71,5 @@ export default interface Activity {
    */
   checkedList: string[];
   priority: Priority;
+  slug: string;
 }

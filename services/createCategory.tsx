@@ -2,6 +2,7 @@ import firebase from "firebase/clientApp";
 import Category from "interfaces/Category";
 import { toast } from "react-toastify";
 import { v4 } from "uuid";
+import slugGenerator from "../scripts/slugGenerator";
 
 export default function createCategory(
   userId: string,
@@ -14,6 +15,7 @@ export default function createCategory(
     .set({
       ...category,
       id,
+      slug: slugGenerator(category.name),
       created: new Date().toString(),
     })
     .then(() => toast.success("Category created"))

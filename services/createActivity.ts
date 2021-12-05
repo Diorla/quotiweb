@@ -3,6 +3,7 @@ import Activity from "interfaces/Activity";
 import Category from "interfaces/Category";
 import { toast } from "react-toastify";
 import { v4 } from "uuid";
+import slugGenerator from "../scripts/slugGenerator";
 
 export default function createActivity(
   userId: string,
@@ -21,6 +22,7 @@ export default function createActivity(
           ...activity,
           id,
           priority,
+          slug: slugGenerator(activity.name),
           created: new Date().toString(),
         })
         .then(() => toast.success("Activity created"))
