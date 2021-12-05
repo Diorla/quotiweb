@@ -10,6 +10,7 @@ import ActivityForm from "./ActivityForm";
 import { ToastContainer } from "react-toastify";
 import DateAdapter from "@mui/lab/AdapterDayjs";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import googleSignIn from "./googleSignIn";
 
 export default function Layout(props: Props) {
   const {
@@ -55,5 +56,5 @@ export default function Layout(props: Props) {
         </Box>
       </LocalizationProvider>
     );
-  return <div>Log in</div>;
+  return <div onClick={googleSignIn}>Log in</div>;
 }

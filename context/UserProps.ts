@@ -45,4 +45,9 @@ export default interface UserInfo {
   activeDays: number[];
   excusedDate: string[];
   streak: number;
+  /**
+   * Indicates the current task
+   */
+  runningId: string;
+  runningTaskStartTime: string;
 }

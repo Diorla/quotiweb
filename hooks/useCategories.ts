@@ -8,21 +8,22 @@ export default function useCategories(userId: string) {
   const [error, setError] = useState<Error | null>(null);
 
   const load = () => {
-    const db = firebase.firestore();
-    const collectionRef = db
-      .collection(`users/${userId}/categories`)
-      .orderBy("name", "asc");
-    collectionRef.onSnapshot((querySnapshot) => {
-      const categoryList: Category[] = [];
-      querySnapshot.forEach(
-        (doc: any) => {
+    try {
+      const db = firebase.firestore();
+      const collectionRef = db
+        .collection(`users/${userId}/categories`)
+        .orderBy("name", "asc");
+      collectionRef.onSnapshot((querySnapshot) => {
+        const categoryList: Category[] = [];
+        querySnapshot.forEach((doc: any) => {
           categoryList.push(doc.data());
-        },
-        (error: any) => setError(error)
-      );
-      setCategories(categoryList);
-      setLoading(false);
-    });
+        });
+        setCategories(categoryList);
+        setLoading(false);
+      });
+    } catch (error) {
+      setError(error as Error);
+    }
   };
 
   useEffect(() => {

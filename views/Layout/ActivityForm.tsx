@@ -97,7 +97,7 @@ export default function ActivityForm({ closeForm }: { closeForm: () => void }) {
     checkedList: [],
     priority: 0,
     repeatDoneCount: 0,
-    starTime: dayjs().format("HH:mm"),
+    startTime: dayjs().format("HH:mm"),
     endTime: dayjs().add(15, "minute").format("HH:mm"),
     duration: 0,
   });
@@ -192,11 +192,11 @@ export default function ActivityForm({ closeForm }: { closeForm: () => void }) {
               inputFormat="HH:mm"
               label="Start"
               mask="__:__"
-              value={timeToDayJS(activity.starTime)}
+              value={timeToDayJS(activity.startTime)}
               onChange={(newValue) => {
                 setActivity({
                   ...activity,
-                  starTime: dayjsToTime(newValue),
+                  startTime: dayjsToTime(newValue),
                 });
               }}
               renderInput={(params) => (

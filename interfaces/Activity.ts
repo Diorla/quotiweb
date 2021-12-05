@@ -19,7 +19,7 @@ export default interface Activity {
   /**
    * schedule type is time (start and end time)
    */
-  starTime?: string;
+  startTime?: string;
   endTime?: string;
   /**
    * schedule type is duration
@@ -59,11 +59,11 @@ export default interface Activity {
    */
   currentQuantity: number;
   /**
-   * For timed and duration type, indicates that it is currently running
+   * For timed and duration type, indicates the length of time recorded
    */
-  isRunning: boolean;
+  currentTime: number;
   /**
-   * The last time it was updated (played, stopped or add more) is clicked
+   * The last time it was updated (played, stopped or add more)
    */
   updated: string;
   /**

@@ -22,6 +22,7 @@
     "firebase-admin": "9",
     "next": "latest",
     "react": "latest",
+    "react-countdown": "^2.3.2",
     "react-dom": "latest",
     "react-toastify": "^8.1.0",
     "uuid": "^8.3.2"
