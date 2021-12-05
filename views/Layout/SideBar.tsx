@@ -1,16 +1,18 @@
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import drawer from "./drawer";
+import DrawerList from "./DrawerList";
 import { drawerWidth } from "../../constants/drawerWidth";
 
 export default function SideBar({
   container,
   mobileOpen,
   handleDrawerToggle,
+  path = "today",
 }: {
   container: (() => HTMLElement) | undefined;
   mobileOpen: boolean;
   handleDrawerToggle: () => void;
+  path: string;
 }) {
   return (
     <Box
@@ -34,7 +36,7 @@ export default function SideBar({
           },
         }}
       >
-        {drawer}
+        <DrawerList selected={path} />
       </Drawer>
       <Drawer
         variant="permanent"
@@ -47,7 +49,7 @@ export default function SideBar({
         }}
         open
       >
-        {drawer}
+        <DrawerList selected={path} />
       </Drawer>
     </Box>
   );

@@ -16,7 +16,7 @@ export default function Layout(props: Props) {
   const {
     user: { uid },
   } = useUser();
-  const { window, children } = props;
+  const { window, children, path } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const [categoryOpen, setCategoryOpen] = useState(false);
@@ -39,6 +39,7 @@ export default function Layout(props: Props) {
             openActivity={() => setActivityOpen(true)}
           />
           <SideBar
+            path={path}
             container={container}
             mobileOpen={mobileOpen}
             handleDrawerToggle={handleDrawerToggle}

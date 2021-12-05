@@ -6,4 +6,5 @@ export default interface Props extends BoxProps {
    * You won't need it on your project.
    */
   window?: () => Window;
+  path: string;
 }

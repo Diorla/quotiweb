@@ -8,8 +8,10 @@ import styled from "@emotion/styled";
 import AddIcon from "@mui/icons-material/Add";
 import { Home, Notifications } from "@mui/icons-material";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
+import React from "react";
+import Link from "components/Link";
 
 const StyledToolbar = styled(Toolbar)`
   justify-content: space-between;
@@ -41,23 +43,27 @@ export default function TopBar({
     >
       <StyledToolbar variant="dense">
         <StyledGrid>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <Home />
-          </IconButton>
+          <Box sx={{ display: { sm: "none" } }}>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Box>
+          <Link href="/" sx={{ color: "white" }}>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+            >
+              <Home />
+            </IconButton>
+          </Link>
         </StyledGrid>
         <StyledGrid>
           <IconButton
