@@ -52,7 +52,7 @@ export default function CategoryCard(category: Category) {
   const { name, description, slug, id, color } = category;
   const [open, setOpen] = useState(false);
 
-  const memo = useMemo(() => useActivities, [uid, id]);
+  const memo = useMemo(() => useActivities, []);
 
   const { loading, error, activities } = memo(uid, id);
   return (

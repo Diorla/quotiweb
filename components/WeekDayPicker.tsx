@@ -21,6 +21,7 @@ export default function WeekDayPicker({
     <Grid>
       {arr.map((_item, idx) => (
         <IconButton
+          key={idx}
           sx={{ fontWeight: "500" }}
           color={value.includes(idx) ? "primary" : "default"}
           onClick={() => onChange(filterItem(idx))}
