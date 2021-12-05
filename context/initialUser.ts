@@ -21,6 +21,8 @@ const initialUser: UserProps = {
   activeDays: [1, 2, 3, 4, 5],
   excusedDate: [],
   streak: 0,
+  runningId: "",
+  runningTaskStartTime: "",
 };
 
 export default initialUser;

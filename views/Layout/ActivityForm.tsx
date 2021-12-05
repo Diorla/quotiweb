@@ -92,7 +92,6 @@ export default function ActivityForm({ closeForm }: { closeForm: () => void }) {
     repeatCount: 1,
     runTime: 0,
     currentQuantity: 0,
-    isRunning: false,
     updated: "",
     checkedList: [],
     priority: 0,
@@ -100,6 +99,8 @@ export default function ActivityForm({ closeForm }: { closeForm: () => void }) {
     startTime: dayjs().format("HH:mm"),
     endTime: dayjs().add(15, "minute").format("HH:mm"),
     duration: 0,
+    currentTime: 0,
+    slug: "",
   });
   if (err) return <div>Error fetching Categories</div>;
   if (loading) return <div>Loading Categories</div>;
