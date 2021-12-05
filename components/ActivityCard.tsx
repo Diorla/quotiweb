@@ -29,6 +29,8 @@ export default function ActivityCard({
     currentQuantity,
     currentTime,
     updated,
+    repeat,
+    repeatCount,
   } = activity;
   return (
     <Card sx={{ padding: 1, minWidth: 300 }}>
@@ -42,6 +44,8 @@ export default function ActivityCard({
         {name}
       </Typography>
       <ScheduleComponent
+        repeat={repeat}
+        repeatCount={repeatCount}
         schedule={schedule}
         status={status}
         dueDate={dueDate}

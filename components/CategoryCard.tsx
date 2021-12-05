@@ -68,7 +68,7 @@ export default function CategoryCard(category: Category) {
         >
           <Link
             href={`/category/${slug}`}
-            sx={{ color: "palette.primary.text", textDecoration: "none" }}
+            sx={{ color: "black", textDecoration: "none" }}
           >
             {name}
           </Link>

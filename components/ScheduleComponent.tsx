@@ -2,7 +2,7 @@ import { Box, Button } from "@mui/material";
 import { useUser } from "context/userContext";
 import dayjs from "dayjs";
 import firebase from "firebase/clientApp";
-import { scheduleType } from "interfaces/Activity";
+import { repeatType, scheduleType } from "interfaces/Activity";
 import getSchedule from "../scripts/getSchedule";
 import AddIcon from "@mui/icons-material/Add";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
@@ -10,6 +10,7 @@ import PauseIcon from "@mui/icons-material/Pause";
 import ActivityStatus from "../interfaces/ActivityStatus";
 import Countdown from "./Countdown";
 import convertMsToHMS from "scripts/convertMSToHMS";
+import Recurrence from "./Recurrence";
 
 export default function ScheduleComponent({
   schedule,
@@ -25,6 +26,8 @@ export default function ScheduleComponent({
   updated,
   id,
   checkedList,
+  repeat,
+  repeatCount,
 }: {
   schedule: scheduleType;
   status: ActivityStatus;
@@ -39,6 +42,8 @@ export default function ScheduleComponent({
   updated: string;
   id: string;
   checkedList: string[];
+  repeat: repeatType;
+  repeatCount: number;
 }) {
   const value = getSchedule({
     quantity,
@@ -98,7 +103,9 @@ export default function ScheduleComponent({
         .doc(uid)
         .update({ runningId: id, runningTaskStartTime: dayjs().toString() });
   };
-  if (status === "none") return <Box>Show occurrence e.g. every Tuesday</Box>;
+  // <Box>Show occurrence e.g. every Tuesday</Box>
+  if (status === "none")
+    return <Recurrence repeat={repeat} repeatCount={repeatCount} />;
   if (status === "completed") {
     if (schedule === "quantity")
       return (
