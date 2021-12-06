@@ -5,6 +5,8 @@ import isToday from "dayjs/plugin/isToday";
 import ActivityStatus from "../interfaces/ActivityStatus";
 import ScheduleComponent from "./ScheduleComponent";
 import MarkAsDone from "./MarkAsDone";
+import React from "react";
+import Link from "./Link";
 dayjs.extend(isToday);
 
 export default function ActivityCard({
@@ -31,9 +33,10 @@ export default function ActivityCard({
     updated,
     repeat,
     repeatCount,
+    slug,
   } = activity;
   return (
-    <Card sx={{ padding: 1, minWidth: 300 }}>
+    <Card sx={{ padding: 1, minWidth: 240 }}>
       <Typography
         sx={{
           display: "flex",
@@ -41,7 +44,12 @@ export default function ActivityCard({
         }}
       >
         <MarkAsDone status={status} id={id} checkedList={checkedList} />
-        {name}
+        <Link
+          href={`/activity/${slug}`}
+          sx={{ color: "black", textDecoration: "none" }}
+        >
+          {name}
+        </Link>
       </Typography>
       <ScheduleComponent
         repeat={repeat}

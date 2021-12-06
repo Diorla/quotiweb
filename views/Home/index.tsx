@@ -1,5 +1,6 @@
 import { Masonry } from "@mui/lab";
 import ActivityCard from "components/ActivityCard";
+import masonryColumns from "constants/masonryColumns";
 import { useUser } from "context/userContext";
 import useActivities from "hooks/useActivities";
 import filterTodo from "./filterTodo";
@@ -18,7 +19,7 @@ export default function Home() {
         <div>
           <div>
             <h4>Todo</h4>
-            <Masonry>
+            <Masonry columns={masonryColumns}>
               {todo.map((item) => (
                 <ActivityCard activity={item} status="todo" key={item.id} />
               ))}
@@ -26,7 +27,7 @@ export default function Home() {
           </div>
           <div>
             <h4>Completed</h4>
-            <Masonry>
+            <Masonry columns={masonryColumns}>
               {completed.map((item) => (
                 <ActivityCard
                   activity={item}
@@ -38,7 +39,7 @@ export default function Home() {
           </div>
           <div>
             <h4>Upcoming</h4>
-            <Masonry>
+            <Masonry columns={masonryColumns}>
               {upcoming.map((item) => (
                 <ActivityCard
                   activity={item}
