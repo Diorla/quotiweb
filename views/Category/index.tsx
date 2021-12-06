@@ -1,13 +1,14 @@
 import { Masonry } from "@mui/lab";
-import { Box, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import ActivityCard from "components/ActivityCard";
 import Confirm from "components/Confirm";
+import { useCategories } from "context/categoryContext";
 import { useUser } from "context/userContext";
 import firebase from "firebase/clientApp";
 import Activity from "interfaces/Activity";
 import Category from "interfaces/Category";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import CategoryEdit from "./CategoryEdit";
 
@@ -24,29 +25,23 @@ export default function CategoryComp() {
   const [activityLoading, setActivityLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  const { categoryList } = useCategories();
 
   useEffect(() => {
-    const db = firebase.firestore();
     let mounted = true;
-    if (slug)
-      db.collection(`users/${uid}/categories`)
-        .limit(1)
-        .where("slug", "==", slug)
-        .onSnapshot((querySnapshot) => {
-          const categoryList: Category[] = [];
-          querySnapshot.forEach((doc: any) => {
-            categoryList.push(doc.data());
-          });
-          // setCategories(categoryList);
-          if (mounted) {
-            setCategory(categoryList[0]);
-            setLoading(false);
-          }
-        });
+    if (slug && mounted) {
+      const slugCategory = categoryList.find((item) => item.slug === slug);
+      if (slugCategory) {
+        setCategory(slugCategory);
+        setLoading(false);
+      } else setLoading(false);
+    }
+
     return () => {
       mounted = false;
     };
-  }, [slug, uid]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug]);
 
   useEffect(() => {
     let mounted = true;

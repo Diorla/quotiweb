@@ -6,11 +6,10 @@ import Activity, {
   repeatType,
   scheduleType,
 } from "interfaces/Activity";
-import React, { useState } from "react";
+import { useState } from "react";
 import generateColor from "scripts/generateColor";
 import FormWrapper from "../../components/FormWrapper";
 import FormButton from "../../components/FormButton";
-import useCategories from "hooks/useCategories";
 import Picker from "components/Picker";
 import TimePicker from "@mui/lab/TimePicker";
 import timeToDayJS from "scripts/timeToDayJS";
@@ -24,6 +23,7 @@ import ActivityPicker from "components/ActivityPicker";
 import { v4 } from "uuid";
 import useActivities from "hooks/useActivities";
 import createActivity from "services/createActivity";
+import { useCategories } from "context/categoryContext";
 
 const InputColor = styled.input`
   border: none;
@@ -60,7 +60,7 @@ export default function ActivityForm({ closeForm }: { closeForm: () => void }) {
     },
   };
 
-  const { categories, loading, error: err } = useCategories(uid);
+  const { categoryList, loading, error: err } = useCategories();
 
   const {
     loading: activityLoading,
@@ -104,7 +104,7 @@ export default function ActivityForm({ closeForm }: { closeForm: () => void }) {
   });
   if (err) return <div>Error fetching Categories</div>;
   if (loading) return <div>Loading Categories</div>;
-  if (!categories.length) return <div>Please create category first</div>;
+  if (!categoryList.length) return <div>Please create category first</div>;
   return (
     <FormWrapper elevation={1}>
       <Typography variant="h4" sx={styles.h1}>
@@ -137,7 +137,7 @@ export default function ActivityForm({ closeForm }: { closeForm: () => void }) {
             });
             if (catError) setCatError("");
           }}
-          list={categories.map((item) => {
+          list={categoryList.map((item) => {
             return {
               label: item.name,
               value: item.id,
@@ -361,7 +361,7 @@ export default function ActivityForm({ closeForm }: { closeForm: () => void }) {
                 repeatId,
               })
             }
-            list={categories.map((item) => {
+            list={categoryList.map((item) => {
               return {
                 label: item.name,
                 value: item.id,
