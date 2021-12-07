@@ -67,6 +67,14 @@ export default interface Activity {
    * Keeps record of the date that it was marked as done
    */
   checkedList: string[];
+  // TODO: Remove this
+  /**
+   * It will be done in front end, and doesn't need updating all the time
+   */
   priority: Priority;
+  /**
+   * The last the activity was updated
+   */
+  updated: string;
   slug: string;
 }

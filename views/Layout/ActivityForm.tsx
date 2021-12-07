@@ -100,6 +100,7 @@ export default function ActivityForm({ closeForm }: { closeForm: () => void }) {
     slug: "",
     quantityRecord: {},
     timeRecord: {},
+    updated: "",
   });
   if (err) return <div>Error fetching Categories</div>;
   if (loading) return <div>Loading Categories</div>;

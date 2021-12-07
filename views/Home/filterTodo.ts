@@ -2,32 +2,51 @@ import dayjs from "dayjs";
 import Activity from "interfaces/Activity";
 import getDueDate from "scripts/getDueDate";
 import isToday from "dayjs/plugin/isToday";
+import Category from "interfaces/Category";
+import ActivityStatus from "interfaces/ActivityStatus";
+import getValueRemaining from "./getValueRemaining";
 dayjs.extend(isToday);
 
-export interface WithDueDateProps extends Activity {
-  dueDate: number;
+export interface ExtendedActivity extends Activity {
+  dueDate?: dayjs.Dayjs;
+  status?: ActivityStatus;
+  remaining?: number;
+  categoryName?: string;
 }
-export default function filterTodo(activities: Activity[]) {
-  const completed: Activity[] = [];
-  const todo: Activity[] = [];
-  const upcoming: WithDueDateProps[] = [];
+export default function filterTodo(
+  activities: Activity[],
+  CategoryMap: { [key: string]: Category }
+) {
+  const completed: ExtendedActivity[] = [];
+  const todo: ExtendedActivity[] = [];
+  const upcoming: ExtendedActivity[] = [];
   /**
    * For category and activity based activity
    */
-  const noDueDate: Activity[] = [];
+  const noDueDate: ExtendedActivity[] = [];
 
   activities.forEach((activity) => {
+    const categoryName = CategoryMap[activity.category]?.name;
+    const priority = CategoryMap[activity.category]?.priority;
     const { checkedList } = activity;
     if (
       checkedList.length &&
       dayjs(checkedList[checkedList.length - 1]).isToday()
     ) {
-      completed.push(activity);
+      completed.push({ ...activity, categoryName, priority });
     } else {
       const dueDate = getDueDate(activity);
-      if (!dueDate) noDueDate.push(activity);
-      else if (dayjs(dueDate).isToday()) todo.push(activity);
-      else upcoming.push({ ...activity, dueDate: dueDate.valueOf() });
+      if (!dueDate) noDueDate.push({ ...activity, categoryName, priority });
+      else if (dayjs(dueDate).isToday()) {
+        const remaining = getValueRemaining(activity);
+        todo.push({ ...activity, remaining, categoryName, priority });
+      } else
+        upcoming.push({
+          ...activity,
+          dueDate: dueDate,
+          categoryName,
+          priority,
+        });
     }
   });
   return {

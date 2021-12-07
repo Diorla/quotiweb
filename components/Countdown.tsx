@@ -5,6 +5,9 @@ import firebase from "firebase/clientApp";
 import { useUser } from "context/userContext";
 import { toast } from "react-toastify";
 import timePad from "scripts/timePad";
+import { useActivities } from "context/activityContext";
+import currentRecordKey from "constants/currentRecordKey";
+import getValueRemaining from "views/Home/getValueRemaining";
 
 const Completed = () => {
   return <span>You are good to go!</span>;
@@ -26,9 +29,13 @@ const Renderer = ({
   checkedList,
 }: timeRendererProps) => {
   const {
-    user: { uid, runningId, runningTaskStartTime },
+    user: { uid, runningId },
   } = useUser();
+  const { activityMap } = useActivities();
   const onComplete = () => {
+    const activity = activityMap[runningId] || {};
+
+    const { timeRecord = {} } = activity;
     const db = firebase.firestore();
     const batch = db.batch();
 
@@ -36,13 +43,15 @@ const Renderer = ({
 
     const taskRef = db.doc(`users/${uid}/activities/${runningId}`);
 
-    const increment = firebase.firestore.FieldValue.increment(
-      dayjs().diff(runningTaskStartTime, "milliseconds")
-    );
+    const totalDuration = getValueRemaining(activity);
 
+    const currentTime = timeRecord[currentRecordKey] || 0;
     batch.update(userRef, { runningId: "", runningTaskStartTime: "" });
     batch.update(taskRef, {
-      currentTime: increment,
+      timeRecord: {
+        ...timeRecord,
+        [currentRecordKey]: totalDuration + currentTime,
+      },
       updated: dayjs().toString(),
       checkedList: [...checkedList, dayjs().toString()],
     });

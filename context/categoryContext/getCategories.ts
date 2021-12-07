@@ -19,8 +19,8 @@ export default async function getCategories(
       querySnapshot.forEach((doc: any) => {
         categoryList.push(doc.data());
       });
-      Object.entries(categoryList).forEach(([key, value]) => {
-        categoryMap[key] = value;
+      categoryList.forEach((item) => {
+        categoryMap[item.id] = item;
       });
       setCategoryList(categoryList);
       setCategoryMap(categoryMap);

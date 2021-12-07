@@ -2,27 +2,32 @@ import { Masonry } from "@mui/lab";
 import ActivityCard from "components/ActivityCard";
 import masonryColumns from "constants/masonryColumns";
 import { useActivities } from "context/activityContext";
-import { useUser } from "context/userContext";
+import { useCategories } from "context/categoryContext";
 import filterTodo from "./filterTodo";
 
 export default function Home() {
-  const {
-    user: { uid },
-  } = useUser();
+  const { categoryMap } = useCategories();
   const { loading, error, activityList } = useActivities();
   if (loading) return <div>Loading activityList.</div>;
   if (error) return <div>Error</div>;
   if (activityList.length) {
-    const { completed, todo, upcoming } = filterTodo(activityList);
+    const { completed, todo, upcoming } = filterTodo(activityList, categoryMap);
     if (todo.length)
       return (
         <div>
           <div>
             <h4>Todo</h4>
             <Masonry columns={masonryColumns}>
-              {todo.map((item) => (
-                <ActivityCard activity={item} status="todo" key={item.id} />
-              ))}
+              {todo
+                .sort((a, b) => b.priority - a.priority)
+                .map((item) => (
+                  <ActivityCard
+                    activity={item}
+                    status="todo"
+                    key={item.id}
+                    remaining={item.remaining}
+                  />
+                ))}
             </Masonry>
           </div>
           <div>

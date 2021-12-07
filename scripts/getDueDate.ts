@@ -26,5 +26,5 @@ export default function getDueDate(activity: Activity) {
     return getYearlyDueDate(startDate, repeatCount, hour, minute);
   }
   if (repeatDoneCount) return dayjs().hour(hour).minute(minute);
-  return null;
+  return;
 }
