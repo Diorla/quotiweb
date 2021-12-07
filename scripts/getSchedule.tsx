@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import { scheduleType } from "interfaces/Activity";
 import isToday from "dayjs/plugin/isToday";
-import convertMsToHMS from "scripts/convertMSToHMS";
 import timeToDayJS from "scripts/timeToDayJS";
 dayjs.extend(isToday);
 
@@ -46,7 +45,7 @@ export default function getSchedule({
       currentQuantity,
       updated
     );
-    return quantity - alreadyDone; //`${quantity - alreadyDone} ${unit}`;
+    return quantity - alreadyDone;
   }
   const alreadyDone = getCompletedValue(checkedList, currentTime, updated);
   if (schedule === "duration") return duration - alreadyDone;
@@ -55,14 +54,4 @@ export default function getSchedule({
     "millisecond"
   );
   return ms - alreadyDone;
-  // if (schedule === "duration") {
-  //   const { hh, mm, ss } = convertMsToHMS(duration - alreadyDone || 0);
-  //   return `${hh}:${mm}:${ss}`;
-  // }
-  // const ms = dayjs(timeToDayJS(endTime)).diff(
-  //   timeToDayJS(startTime),
-  //   "millisecond"
-  // );
-  // const { hh, mm, ss } = convertMsToHMS(ms - alreadyDone || 0);
-  // return `${hh}:${mm}:${ss}`;
 }

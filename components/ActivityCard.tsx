@@ -3,9 +3,7 @@ import dayjs from "dayjs";
 import Activity from "interfaces/Activity";
 import isToday from "dayjs/plugin/isToday";
 import ActivityStatus from "../interfaces/ActivityStatus";
-import ScheduleComponent from "./ScheduleComponent";
 import MarkAsDone from "./MarkAsDone";
-import React from "react";
 import Link from "./Link";
 dayjs.extend(isToday);
 
@@ -28,9 +26,8 @@ export default function ActivityCard({
     startTime,
     endTime,
     unit,
-    currentQuantity,
-    currentTime,
-    updated,
+    quantityRecord = {},
+    timeRecord = {},
     repeat,
     repeatCount,
     slug,
@@ -51,23 +48,6 @@ export default function ActivityCard({
           {name}
         </Link>
       </Typography>
-      <ScheduleComponent
-        repeat={repeat}
-        repeatCount={repeatCount}
-        schedule={schedule}
-        status={status}
-        dueDate={dueDate}
-        quantity={quantity}
-        duration={duration}
-        startTime={startTime}
-        endTime={endTime}
-        unit={unit}
-        currentQuantity={currentQuantity}
-        currentTime={currentTime}
-        updated={updated}
-        id={id}
-        checkedList={checkedList}
-      />
     </Card>
   );
 }

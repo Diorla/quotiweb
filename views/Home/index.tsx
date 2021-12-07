@@ -1,19 +1,19 @@
 import { Masonry } from "@mui/lab";
 import ActivityCard from "components/ActivityCard";
 import masonryColumns from "constants/masonryColumns";
+import { useActivities } from "context/activityContext";
 import { useUser } from "context/userContext";
-import useActivities from "hooks/useActivities";
 import filterTodo from "./filterTodo";
 
 export default function Home() {
   const {
     user: { uid },
   } = useUser();
-  const { loading, error, activities } = useActivities(uid);
-  if (loading) return <div>Loading activities. Uid: {uid}</div>;
+  const { loading, error, activityList } = useActivities();
+  if (loading) return <div>Loading activityList.</div>;
   if (error) return <div>Error</div>;
-  if (activities.length) {
-    const { completed, todo, upcoming } = filterTodo(activities);
+  if (activityList.length) {
+    const { completed, todo, upcoming } = filterTodo(activityList);
     if (todo.length)
       return (
         <div>
@@ -54,5 +54,5 @@ export default function Home() {
       );
     return <div>All done for today</div>;
   }
-  return <div>No activities created yet</div>;
+  return <div>No activityList created yet</div>;
 }

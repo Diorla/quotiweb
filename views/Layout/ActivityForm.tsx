@@ -21,9 +21,9 @@ import { DatePicker } from "@mui/lab";
 import WeekDayPicker from "components/WeekDayPicker";
 import ActivityPicker from "components/ActivityPicker";
 import { v4 } from "uuid";
-import useActivities from "hooks/useActivities";
 import createActivity from "services/createActivity";
 import { useCategories } from "context/categoryContext";
+import { useActivities } from "context/activityContext";
 
 const InputColor = styled.input`
   border: none;
@@ -65,8 +65,8 @@ export default function ActivityForm({ closeForm }: { closeForm: () => void }) {
   const {
     loading: activityLoading,
     error: activityError,
-    activities,
-  } = useActivities(uid);
+    activityList,
+  } = useActivities();
   const submit = () => {
     if (activity.name && activity.category)
       createActivity(uid, activity, closeForm);
@@ -91,16 +91,15 @@ export default function ActivityForm({ closeForm }: { closeForm: () => void }) {
     repeatId: "",
     repeatCount: 1,
     runTime: 0,
-    currentQuantity: 0,
-    updated: "",
     checkedList: [],
     priority: 0,
     repeatDoneCount: 0,
     startTime: dayjs().format("HH:mm"),
     endTime: dayjs().add(15, "minute").format("HH:mm"),
     duration: 0,
-    currentTime: 0,
     slug: "",
+    quantityRecord: {},
+    timeRecord: {},
   });
   if (err) return <div>Error fetching Categories</div>;
   if (loading) return <div>Loading Categories</div>;
@@ -380,7 +379,7 @@ export default function ActivityForm({ closeForm }: { closeForm: () => void }) {
             }
             loading={activityLoading}
             error={activityError}
-            list={activities.map((item) => {
+            list={activityList.map((item) => {
               return {
                 label: item.name,
                 value: item.id,

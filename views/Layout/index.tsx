@@ -12,6 +12,7 @@ import DateAdapter from "@mui/lab/AdapterDayjs";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import googleSignIn from "./googleSignIn";
 import CategoriesProvider from "context/categoryContext";
+import ActivitiesProvider from "context/activityContext";
 
 export default function Layout(props: Props) {
   const {
@@ -33,31 +34,33 @@ export default function Layout(props: Props) {
   if (uid)
     return (
       <CategoriesProvider>
-        <LocalizationProvider dateAdapter={DateAdapter}>
-          <Box sx={{ display: "flex" }}>
-            <TopBar
-              handleDrawerToggle={handleDrawerToggle}
-              openCategory={() => setCategoryOpen(true)}
-              openActivity={() => setActivityOpen(true)}
-            />
-            <SideBar
-              path={path}
-              container={container}
-              mobileOpen={mobileOpen}
-              handleDrawerToggle={handleDrawerToggle}
-            />
-            <Body>
-              {categoryOpen && (
-                <CategoryForm closeForm={() => setCategoryOpen(false)} />
-              )}
-              {activityOpen && (
-                <ActivityForm closeForm={() => setActivityOpen(false)} />
-              )}
-              <Box>{children}</Box>
-              <ToastContainer />
-            </Body>
-          </Box>
-        </LocalizationProvider>
+        <ActivitiesProvider>
+          <LocalizationProvider dateAdapter={DateAdapter}>
+            <Box sx={{ display: "flex" }}>
+              <TopBar
+                handleDrawerToggle={handleDrawerToggle}
+                openCategory={() => setCategoryOpen(true)}
+                openActivity={() => setActivityOpen(true)}
+              />
+              <SideBar
+                path={path}
+                container={container}
+                mobileOpen={mobileOpen}
+                handleDrawerToggle={handleDrawerToggle}
+              />
+              <Body>
+                {categoryOpen && (
+                  <CategoryForm closeForm={() => setCategoryOpen(false)} />
+                )}
+                {activityOpen && (
+                  <ActivityForm closeForm={() => setActivityOpen(false)} />
+                )}
+                <Box>{children}</Box>
+                <ToastContainer />
+              </Body>
+            </Box>
+          </LocalizationProvider>
+        </ActivitiesProvider>
       </CategoriesProvider>
     );
   return <div onClick={googleSignIn}>Log in</div>;

@@ -55,17 +55,14 @@ export default interface Activity {
    */
   runTime: number;
   /**
-   * The number of the quantity that been updated
+   * key as date, keeps record of all the number or value
    */
-  currentQuantity: number;
-  /**
-   * For timed and duration type, indicates the length of time recorded
-   */
-  currentTime: number;
-  /**
-   * The last time it was updated (played, stopped or add more)
-   */
-  updated: string;
+  quantityRecord: {
+    [key: string]: number;
+  };
+  timeRecord: {
+    [key: string]: number;
+  };
   /**
    * Keeps record of the date that it was marked as done
    */

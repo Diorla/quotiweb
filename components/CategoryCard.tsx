@@ -6,8 +6,8 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
+import { useActivities } from "context/activityContext";
 import { useUser } from "context/userContext";
-import useActivities from "hooks/useActivities";
 import Activity from "interfaces/Activity";
 import Category from "interfaces/Category";
 import { useMemo, useState } from "react";
@@ -26,35 +26,30 @@ const ActivityItem = (activity: Activity) => {
 const ActivityRender = ({
   loading,
   error,
-  activities,
+  activityList,
 }: {
   loading: boolean;
   error: Error | null;
-  activities: Activity[];
+  activityList: Activity[];
 }) => {
   if (loading) return <div>Loading</div>;
   if (error) return <div>Error</div>;
-  if (activities.length)
+  if (activityList.length)
     return (
       <div>
-        {activities.map((item) => (
+        {activityList.map((item) => (
           <ActivityItem {...item} key={item.id} />
         ))}
       </div>
     );
-  return <div>No activities added yet</div>;
+  return <div>No activityList added yet</div>;
 };
 
 export default function CategoryCard(category: Category) {
-  const {
-    user: { uid },
-  } = useUser();
-  const { name, description, slug, id, color } = category;
+  const { name, description, slug, color } = category;
   const [open, setOpen] = useState(false);
 
-  const memo = useMemo(() => useActivities, []);
-
-  const { loading, error, activities } = memo(uid, id);
+  const { loading, error, activityList } = useActivities();
   return (
     <Accordion expanded={open} onChange={() => setOpen(!open)}>
       <AccordionSummary
@@ -80,7 +75,7 @@ export default function CategoryCard(category: Category) {
         <ActivityRender
           loading={loading}
           error={error}
-          activities={activities}
+          activityList={activityList}
         />
       </AccordionDetails>
     </Accordion>
