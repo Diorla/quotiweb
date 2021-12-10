@@ -75,7 +75,9 @@ export default function CategoryCard(category: Category) {
         <ActivityRender
           loading={loading}
           error={error}
-          activityList={activityList}
+          activityList={activityList.filter(
+            (item) => item.category === category.id
+          )}
         />
       </AccordionDetails>
     </Accordion>

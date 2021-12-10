@@ -17,6 +17,7 @@ import ActivitiesProvider from "context/activityContext";
 export default function Layout(props: Props) {
   const {
     user: { uid },
+    loading,
   } = useUser();
   const { window, children, path } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -31,6 +32,7 @@ export default function Layout(props: Props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
+  if (loading) return <div>app is loading</div>;
   if (uid)
     return (
       <CategoriesProvider>

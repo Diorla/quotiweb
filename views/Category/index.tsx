@@ -2,10 +2,11 @@ import { Masonry } from "@mui/lab";
 import { Button } from "@mui/material";
 import ActivityCard from "components/ActivityCard";
 import Confirm from "components/Confirm";
+import masonryColumns from "constants/masonryColumns";
+import { useActivities } from "context/activityContext";
 import { useCategories } from "context/categoryContext";
 import { useUser } from "context/userContext";
 import firebase from "firebase/clientApp";
-import Activity from "interfaces/Activity";
 import Category from "interfaces/Category";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -18,14 +19,14 @@ export default function CategoryComp() {
   } = useUser();
   const {
     query: { slug },
+    reload,
   } = useRouter();
   const [category, setCategory] = useState<Category | null>(null);
-  const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activityLoading, setActivityLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const { categoryList } = useCategories();
+  const { loading: activityLoading, activityList } = useActivities();
 
   useEffect(() => {
     let mounted = true;
@@ -41,28 +42,11 @@ export default function CategoryComp() {
       mounted = false;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [slug]);
+  }, [slug, JSON.stringify(categoryList)]);
 
-  useEffect(() => {
-    let mounted = true;
-    const db = firebase.firestore();
-    if (category?.id)
-      db.collection(`users/${uid}/activities`)
-        .orderBy("name", "asc")
-        .where("category", "==", category.id)
-        .onSnapshot((querySnapshot) => {
-          const activityList: Activity[] = [];
-          querySnapshot.forEach((doc: any) => {
-            activityList.push(doc.data());
-          });
-          setActivities(activityList);
-          setActivityLoading(false);
-        });
-    return () => {
-      mounted = false;
-    };
-  }, [category?.id, uid]);
-
+  const activities = category?.id
+    ? activityList.filter((item) => item.category === category.id)
+    : [];
   const deleteCategory = () => {
     if (loading && activityLoading) {
       toast.error("Network error");
@@ -80,6 +64,7 @@ export default function CategoryComp() {
     batch.commit().then(() => {
       setOpen(false);
       toast.info(`category and ${count} ${message(count)} deleted`);
+      reload();
     });
   };
   if (!slug) return <div>Loading page</div>;
@@ -111,7 +96,7 @@ export default function CategoryComp() {
         {activityLoading ? (
           <div>Loading</div>
         ) : (
-          <Masonry>
+          <Masonry columns={masonryColumns}>
             {activities.map((item) => (
               <ActivityCard activity={item} key={item.id} />
             ))}

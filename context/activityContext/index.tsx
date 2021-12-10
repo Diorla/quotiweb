@@ -1,4 +1,10 @@
-import React, { useState, useEffect, createContext, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  createContext,
+  useContext,
+  useRef,
+} from "react";
 import ActivitiesProps from "./ActivitiesProps";
 import { useUser } from "context/userContext";
 import getActivities from "./getActivities";
@@ -23,13 +29,13 @@ export default function ActivitiesProvider({
     user: { uid },
   } = useUser();
   const [error, setError] = useState<null | Error>(null);
+  const mounted = useRef(true);
 
   useEffect(() => {
-    let mounted = true;
-    if (mounted && uid)
+    if (uid)
       getActivities(uid, setActivityList, setActivityMap, setLoading, setError);
     return () => {
-      mounted = false;
+      mounted.current = false;
     };
   }, [uid]);
 

@@ -1,21 +1,21 @@
 import firebase from "firebase/clientApp";
-import Category from "interfaces/Category";
+import Activity from "interfaces/Activity";
 import { toast } from "react-toastify";
 
-export default function updateCategory(
+export default function updateActivity(
   userId: string,
-  category: Category,
+  activity: Activity,
   callback: () => void
 ) {
   const db = firebase.firestore();
-  const { id } = category;
-  db.doc(`users/${userId}/categories/${id}`)
+  const { id } = activity;
+  db.doc(`users/${userId}/activities/${id}`)
     .set({
-      ...category,
+      ...activity,
       id,
       updated: new Date().toString(),
     })
-    .then(() => toast.success("Category updated"))
+    .then(() => toast.success("Activity updated"))
     .then(callback)
     .catch((err) => toast.error(err.message));
 }

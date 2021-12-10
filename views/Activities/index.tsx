@@ -1,5 +1,6 @@
 import { Masonry } from "@mui/lab";
 import ActivityCard from "components/ActivityCard";
+import masonryColumns from "constants/masonryColumns";
 import { useActivities } from "context/activityContext";
 
 export default function Activities() {
@@ -7,7 +8,7 @@ export default function Activities() {
   if (loading) return <div>Loading</div>;
   if (error) return <div>Error</div>;
   return (
-    <Masonry>
+    <Masonry columns={masonryColumns}>
       {activityList.map((item) => (
         <ActivityCard activity={item} key={item.id} />
       ))}

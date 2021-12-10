@@ -1,4 +1,10 @@
-import React, { useState, useEffect, createContext, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  createContext,
+  useContext,
+  useRef,
+} from "react";
 import CategoriesProps from "./CategoriesProps";
 import { useUser } from "context/userContext";
 import getCategories from "./getCategories";
@@ -23,13 +29,13 @@ export default function CategoriesProvider({
     user: { uid },
   } = useUser();
   const [error, setError] = useState<null | Error>(null);
+  const mounted = useRef(true);
 
   useEffect(() => {
-    let mounted = true;
-    if (mounted && uid)
+    if (uid)
       getCategories(uid, setCategoryList, setCategoryMap, setLoading, setError);
     return () => {
-      mounted = false;
+      mounted.current = false;
     };
   }, [uid]);
 
