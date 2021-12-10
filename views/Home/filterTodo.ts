@@ -24,11 +24,12 @@ export default function filterTodo(
    * For category and activity based activity
    */
   const noDueDate: ExtendedActivity[] = [];
-
+  let totalTime = 0;
+  let totalQuantity = 0;
   activities.forEach((activity) => {
     const categoryName = CategoryMap[activity.category]?.name;
     const priority = CategoryMap[activity.category]?.priority;
-    const { checkedList } = activity;
+    const { checkedList, schedule } = activity;
     if (
       checkedList.length &&
       dayjs(checkedList[checkedList.length - 1]).isToday()
@@ -39,6 +40,8 @@ export default function filterTodo(
       if (!dueDate) noDueDate.push({ ...activity, categoryName, priority });
       else if (dayjs(dueDate).isToday()) {
         const remaining = getValueRemaining(activity);
+        if (schedule === "quantity") totalQuantity += remaining;
+        else totalTime += remaining;
         todo.push({ ...activity, remaining, categoryName, priority });
       } else
         upcoming.push({
@@ -54,5 +57,7 @@ export default function filterTodo(
     todo,
     upcoming,
     noDueDate,
+    totalQuantity,
+    totalTime,
   };
 }
