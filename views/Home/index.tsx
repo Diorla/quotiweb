@@ -6,7 +6,7 @@ import { useCategories } from "context/categoryContext";
 import convertMsToHMS from "scripts/convertMSToHMS";
 import filterTodo from "./filterTodo";
 import HourglassTopIcon from "@mui/icons-material/HourglassTop";
-import StraightenIcon from "@mui/icons-material/Straighten";
+import LineWeightIcon from "@mui/icons-material/LineWeight";
 import { Grid } from "@mui/material";
 
 export default function Home() {
@@ -48,7 +48,7 @@ export default function Home() {
                 display: "flex",
               }}
             >
-              <StraightenIcon /> {totalQuantity}
+              <LineWeightIcon /> {totalQuantity}
             </Grid>
           </Grid>
           <div>

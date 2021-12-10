@@ -1,6 +1,6 @@
-import { Box, Card, Typography } from "@mui/material";
+import { Card, Typography } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
-import Activity from "interfaces/Activity";
+import UpdateIcon from "@mui/icons-material/Update";
 import isToday from "dayjs/plugin/isToday";
 import ActivityStatus from "../interfaces/ActivityStatus";
 import MarkAsDone from "./MarkAsDone";
@@ -8,7 +8,56 @@ import Link from "./Link";
 import ScheduleRender from "./ScheduleRender";
 import { ExtendedActivity } from "views/Home/filterTodo";
 import { useUser } from "context/userContext";
+import Activity from "interfaces/Activity";
+import timeToDayJS from "scripts/timeToDayJS";
+import updateActivity from "services/updateActivity";
+import { toast } from "react-toastify";
 dayjs.extend(isToday);
+
+const Postpone = ({
+  activity,
+  status,
+  remaining = 0,
+}: {
+  activity: Activity;
+  status: ActivityStatus;
+  remaining?: number;
+}) => {
+  const {
+    schedule,
+    quantity = 0,
+    startTime = "",
+    endTime = "",
+    duration = 0,
+    name,
+  } = activity;
+
+  const {
+    user: { uid },
+  } = useUser();
+  const postponeActivity = () => {
+    const date = dayjs().add(1, "day").toString();
+    updateActivity(uid, { ...activity, postponeDate: date }, () =>
+      toast.success(`Activity updated`)
+    );
+  };
+  if (status === "todo") {
+    if (schedule === "quantity" && quantity <= remaining) {
+      return <UpdateIcon onClick={postponeActivity} />;
+    }
+    if (schedule === "duration" && duration <= remaining) {
+      console.log({ duration, remaining, name });
+      return <UpdateIcon onClick={postponeActivity} />;
+    }
+    const timeLength = Math.abs(
+      timeToDayJS(startTime).diff(timeToDayJS(endTime), "millisecond")
+    );
+    if (timeLength <= remaining) {
+      return <UpdateIcon onClick={postponeActivity} />;
+    }
+  }
+  return null;
+};
 
 export default function ActivityCard({
   activity,
@@ -48,6 +97,7 @@ export default function ActivityCard({
         >
           {name}
         </Link>
+        <Postpone activity={activity} status={status} remaining={remaining} />
       </Typography>
       <Typography>{categoryName}</Typography>
       <ScheduleRender

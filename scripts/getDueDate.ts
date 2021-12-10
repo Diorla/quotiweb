@@ -13,6 +13,12 @@ export default function getDueDate(activity: Activity) {
   const [h, m] = time.split(":");
   const hour = Number(h);
   const minute = Number(m);
+  if (activity.postponeDate) {
+    const { postponeDate } = activity;
+    const today = dayjs();
+    if (!dayjs(postponeDate).isBefore(today, "day"))
+      return dayjs(postponeDate).hour(hour).minute(minute);
+  }
   if (repeat === "day") {
     return getDailyDueDate(startDate, repeatCount, hour, minute);
   }

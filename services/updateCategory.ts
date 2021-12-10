@@ -10,7 +10,7 @@ export default function updateCategory(
   const db = firebase.firestore();
   const { id } = category;
   db.doc(`users/${userId}/categories/${id}`)
-    .set({
+    .update({
       ...category,
       id,
       updated: new Date().toString(),

@@ -10,7 +10,7 @@ export default function updateActivity(
   const db = firebase.firestore();
   const { id } = activity;
   db.doc(`users/${userId}/activities/${id}`)
-    .set({
+    .update({
       ...activity,
       id,
       updated: new Date().toString(),
