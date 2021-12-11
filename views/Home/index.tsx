@@ -8,11 +8,23 @@ import filterTodo from "./filterTodo";
 import HourglassTopIcon from "@mui/icons-material/HourglassTop";
 import LineWeightIcon from "@mui/icons-material/LineWeight";
 import { Grid } from "@mui/material";
+import CardSkeleton from "components/CardSkeleton";
 
 export default function Home() {
   const { categoryMap } = useCategories();
   const { loading, error, activityList } = useActivities();
-  if (loading) return <div>Loading activityList.</div>;
+  if (loading) {
+    const list: any[] = [];
+    list.length = 10;
+    list.fill("");
+    return (
+      <Masonry columns={masonryColumns}>
+        {list.map((_item, idx) => (
+          <CardSkeleton key={idx} />
+        ))}
+      </Masonry>
+    );
+  }
   if (error) return <div>Error</div>;
   if (activityList.length) {
     const { completed, todo, upcoming, totalQuantity, totalTime } = filterTodo(

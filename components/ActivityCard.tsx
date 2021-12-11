@@ -46,7 +46,6 @@ const Postpone = ({
       return <UpdateIcon onClick={postponeActivity} />;
     }
     if (schedule === "duration" && duration <= remaining) {
-      console.log({ duration, remaining, name });
       return <UpdateIcon onClick={postponeActivity} />;
     }
     const timeLength = Math.abs(

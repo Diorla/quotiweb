@@ -1,6 +1,7 @@
 import { Masonry } from "@mui/lab";
 import { Button } from "@mui/material";
 import ActivityCard from "components/ActivityCard";
+import CardSkeleton from "components/CardSkeleton";
 import Confirm from "components/Confirm";
 import masonryColumns from "constants/masonryColumns";
 import { useActivities } from "context/activityContext";
@@ -27,6 +28,10 @@ export default function CategoryComp() {
   const [showEdit, setShowEdit] = useState(false);
   const { categoryList } = useCategories();
   const { loading: activityLoading, activityList } = useActivities();
+
+  const list: any[] = [];
+  list.length = 10;
+  list.fill("");
 
   useEffect(() => {
     let mounted = true;
@@ -94,7 +99,11 @@ export default function CategoryComp() {
           <Button onClick={() => setOpen(!open)}>Delete</Button>
         </div>
         {activityLoading ? (
-          <div>Loading</div>
+          <Masonry columns={masonryColumns}>
+            {list.map((_item, idx) => (
+              <CardSkeleton key={idx} />
+            ))}
+          </Masonry>
         ) : (
           <Masonry columns={masonryColumns}>
             {activities.map((item) => (

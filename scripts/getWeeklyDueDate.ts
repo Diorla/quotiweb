@@ -20,6 +20,5 @@ export default function getWeeklyDueDate(
       remainder++;
     }
   }
-  // console.log({ remainder, nextDay, sortedDays, today: dayjs().day() });
   return dayjs().add(remainder, "week").day(nextDay).hour(hour).minute(minute);
 }
