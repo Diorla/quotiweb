@@ -18,7 +18,6 @@ export default function createCategory(
       slug: slugGenerator(category.name),
       created: new Date().toString(),
     })
-    .then(() => toast.success("Category created"))
     .then(callback)
     .catch((err) => toast.error(err.message));
 }

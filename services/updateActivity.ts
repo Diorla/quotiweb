@@ -2,9 +2,12 @@ import firebase from "firebase/clientApp";
 import Activity from "interfaces/Activity";
 import { toast } from "react-toastify";
 
+export interface updateActivityProps extends Partial<Activity> {
+  id: string;
+}
 export default function updateActivity(
   userId: string,
-  activity: Activity,
+  activity: updateActivityProps,
   callback: () => void
 ) {
   const db = firebase.firestore();
@@ -15,7 +18,6 @@ export default function updateActivity(
       id,
       updated: new Date().toString(),
     })
-    .then(() => toast.success("Activity updated"))
     .then(callback)
     .catch((err) => toast.error(err.message));
 }

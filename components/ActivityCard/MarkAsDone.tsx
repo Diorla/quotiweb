@@ -4,8 +4,8 @@ import dayjs from "dayjs";
 import firebase from "firebase/clientApp";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import ActivityStatus from "../interfaces/ActivityStatus";
-import Confirm from "./Confirm";
+import ActivityStatus from "interfaces/ActivityStatus";
+import Confirm from "../Confirm";
 
 export default function MarkAsDone({
   status,

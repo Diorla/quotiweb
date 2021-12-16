@@ -15,7 +15,6 @@ export default function updateCategory(
       id,
       updated: new Date().toString(),
     })
-    .then(() => toast.success("Category updated"))
     .then(callback)
     .catch((err) => toast.error(err.message));
 }

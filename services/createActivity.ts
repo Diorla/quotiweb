@@ -25,7 +25,6 @@ export default function createActivity(
           slug: slugGenerator(activity.name),
           created: new Date().toString(),
         })
-        .then(() => toast.success("Activity created"))
         .then(callback);
     })
     .catch((err) => toast.error(err.message));

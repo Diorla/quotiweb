@@ -42,11 +42,25 @@ export default function filterTodo(
         const remaining = getValueRemaining(activity);
         if (schedule === "quantity") totalQuantity += remaining;
         else totalTime += remaining;
-        todo.push({ ...activity, remaining, categoryName, priority });
+        if (dueDate.isAfter(dayjs()))
+          upcoming.push({
+            ...activity,
+            categoryName,
+            priority,
+            dueDate,
+          });
+        else
+          todo.push({
+            ...activity,
+            remaining,
+            categoryName,
+            priority,
+            dueDate,
+          });
       } else
         upcoming.push({
           ...activity,
-          dueDate: dueDate,
+          dueDate,
           categoryName,
           priority,
         });

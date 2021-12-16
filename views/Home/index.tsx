@@ -4,12 +4,18 @@ import masonryColumns from "constants/masonryColumns";
 import { useActivities } from "context/activityContext";
 import { useCategories } from "context/categoryContext";
 import convertMsToHMS from "scripts/convertMSToHMS";
-import filterTodo from "./filterTodo";
+import filterTodo, { ExtendedActivity } from "./filterTodo";
 import HourglassTopIcon from "@mui/icons-material/HourglassTop";
 import LineWeightIcon from "@mui/icons-material/LineWeight";
 import { Grid } from "@mui/material";
 import CardSkeleton from "components/CardSkeleton";
+import dayjs from "dayjs";
 
+const sortByDate = (a: ExtendedActivity, b: ExtendedActivity) => {
+  const initDueDate = a.dueDate ?? dayjs();
+  const nextDueDate = b.dueDate ?? dayjs();
+  return initDueDate.valueOf() - nextDueDate.valueOf();
+};
 export default function Home() {
   const { categoryMap } = useCategories();
   const { loading, error, activityList } = useActivities();
@@ -93,7 +99,7 @@ export default function Home() {
           <div>
             <h4>Upcoming</h4>
             <Masonry columns={masonryColumns}>
-              {upcoming.map((item) => (
+              {upcoming.sort(sortByDate).map((item) => (
                 <ActivityCard
                   activity={item}
                   status="upcoming"
