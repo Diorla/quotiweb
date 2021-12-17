@@ -2,15 +2,12 @@ import AppBar from "@mui/material/AppBar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import { drawerWidth } from "../../constants/drawerWidth";
 import styled from "@emotion/styled";
 import AddIcon from "@mui/icons-material/Add";
-import { Home, Notifications } from "@mui/icons-material";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import { Home } from "@mui/icons-material";
 import { Box, Grid } from "@mui/material";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
-import React from "react";
 import Link from "components/Link";
 
 const StyledToolbar = styled(Toolbar)`
@@ -79,12 +76,11 @@ export default function TopBar({
             edge="start"
             color="inherit"
             aria-label="add category"
-            sx={{ mr: 2 }}
             onClick={openCategory}
           >
             <CreateNewFolderIcon />
           </IconButton>
-          <IconButton
+          {/* <IconButton
             edge="start"
             color="inherit"
             aria-label="menu"
@@ -100,7 +96,7 @@ export default function TopBar({
           >
             <TrendingUpIcon />
             <Typography>5</Typography>
-          </IconButton>
+          </IconButton> */}
         </StyledGrid>
       </StyledToolbar>
     </AppBar>

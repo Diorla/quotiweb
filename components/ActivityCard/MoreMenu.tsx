@@ -26,7 +26,7 @@ export default function MoreMenu({
   remaining?: number;
   showAddModal: () => void;
 }) {
-  const { schedule, unit } = activity;
+  const { schedule, unit, isPinned } = activity;
   const {
     user: { uid },
   } = useUser();
@@ -81,6 +81,13 @@ export default function MoreMenu({
       handleClose();
     });
   };
+
+  const pinActivity = () => {
+    const { isPinned, id } = activity;
+    updateActivity(uid, { id, isPinned: !isPinned }, () => {
+      handleClose();
+    });
+  };
   const title = schedule === "quantity" ? `Add ${unit}` : "Add time";
   return (
     <div>
@@ -91,7 +98,8 @@ export default function MoreMenu({
         <MoreVertIcon />
       </IconButton>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        <Postpone activity={activity} status={status} remaining={remaining} />
+        <MenuItem onClick={pinActivity}>{isPinned ? "Unpin" : "Pin"}</MenuItem>
+        <Postpone activity={activity} status={status} />
         <MenuItem
           onClick={() => {
             showAddModal();

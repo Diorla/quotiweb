@@ -8,6 +8,8 @@ import { useState } from "react";
 import playActivity from "services/playActivity";
 import pauseActivity from "services/pauseActivity";
 import increaseQuantity from "services/increaseQuantity";
+import CancelIcon from "@mui/icons-material/Cancel";
+import firebase from "firebase/clientApp";
 
 export default function Todo(activity: ExtendedActivity) {
   const {
@@ -18,6 +20,14 @@ export default function Todo(activity: ExtendedActivity) {
 
   const [disabled, setDisabled] = useState(false);
 
+  const cancelActivity = () => {
+    const db = firebase.firestore();
+    const userRef = db.collection("users").doc(uid);
+    userRef.update({
+      runningId: "",
+      runningTaskStartTime: "",
+    });
+  };
   if (schedule === "quantity") {
     return (
       <Box
@@ -64,18 +74,32 @@ export default function Todo(activity: ExtendedActivity) {
         startTime={runningTaskStartTime}
         checkedList={checkedList}
       />
-      <Button
-        onClick={() =>
-          runningId === id
-            ? pauseActivity(user, activity)
-            : playActivity(user, activity)
-        }
-        color="secondary"
-        size="small"
-        variant="contained"
-      >
-        {runningId === id ? <Pause /> : <PlayArrow />}
-      </Button>
+      <Box>
+        {runningId === id ? (
+          <Button
+            onClick={cancelActivity}
+            color="error"
+            size="small"
+            variant="contained"
+            sx={{ mr: 2 }}
+            title="Cancel time"
+          >
+            <CancelIcon />
+          </Button>
+        ) : null}
+        <Button
+          onClick={() =>
+            runningId === id
+              ? pauseActivity(user, activity)
+              : playActivity(user, activity)
+          }
+          color="secondary"
+          size="small"
+          variant="contained"
+        >
+          {runningId === id ? <Pause /> : <PlayArrow />}
+        </Button>
+      </Box>
     </Box>
   );
 }

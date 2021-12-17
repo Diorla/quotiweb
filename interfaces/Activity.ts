@@ -78,4 +78,5 @@ export default interface Activity {
   updated: string;
   slug: string;
   postponeDate?: string;
+  isPinned?: boolean;
 }

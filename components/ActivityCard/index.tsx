@@ -1,4 +1,4 @@
-import { Box, Button, Card, TextField, Typography } from "@mui/material";
+import { Box, Button, Card, TextField, Typography, Modal } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
 import isToday from "dayjs/plugin/isToday";
 import ActivityStatus from "interfaces/ActivityStatus";
@@ -14,6 +14,8 @@ import convertHMSToMs from "scripts/convertHMSToMS";
 import increaseQuantity from "services/increaseQuantity";
 import { toast } from "react-toastify";
 import pauseActivity from "services/pauseActivity";
+import PushPinIcon from "@mui/icons-material/PushPin";
+import updateActivity from "services/updateActivity";
 dayjs.extend(isToday);
 
 const InputForm = ({
@@ -22,12 +24,14 @@ const InputForm = ({
   max,
   type,
   visible,
+  unit,
 }: {
   onSave: (val: number) => void;
   onCancel: () => void;
   max: number;
   type: "quantity" | "duration";
   visible: boolean;
+  unit?: string;
 }) => {
   const [input, setInput] = useState(0);
   const updateTime = (val: any, type: "h" | "m" | "s") => {
@@ -59,8 +63,18 @@ const InputForm = ({
   if (!visible) return null;
   if (type === "quantity")
     return (
-      <Box>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "end",
+          flexDirection: "column",
+          justifyContent: "space-around",
+        }}
+      >
         <TextField
+          variant="standard"
+          size="small"
+          label={unit}
           type="number"
           value={input}
           onChange={(e) => {
@@ -91,19 +105,38 @@ const InputForm = ({
     );
   const { hh, mm, ss } = convertMsToHMS(input, true);
   return (
-    <Box>
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "end",
+        flexDirection: "column",
+        justifyContent: "space-around",
+      }}
+    >
       <Box>
         <TextField
+          variant="standard"
+          size="small"
+          label="hh"
           type="number"
+          sx={{ width: 100 }}
           value={hh}
           onChange={(e) => updateTime(Number(e.target.value), "h")}
         />
         <TextField
+          variant="standard"
+          size="small"
+          label="mm"
           type="number"
+          sx={{ width: 100 }}
           value={mm}
           onChange={(e) => updateTime(Number(e.target.value), "m")}
         />
         <TextField
+          variant="standard"
+          size="small"
+          label="ss"
+          sx={{ width: 100 }}
           type="number"
           value={ss}
           onChange={(e) => updateTime(Number(e.target.value), "s")}
@@ -132,13 +165,17 @@ export default function ActivityCard({
     user,
     user: { runningId, uid },
   } = useUser();
-  const { name, id, checkedList, slug, categoryName, color, schedule, unit } =
+  const { name, id, slug, categoryName, color, schedule, unit, isPinned } =
     activity;
   const [input, setInput] = useState({
     visible: false,
     max: 0,
     value: 0,
   });
+  const unpinActivity = () => {
+    const { isPinned, id } = activity;
+    updateActivity(uid, { id, isPinned: !isPinned }, () => {});
+  };
   const showAddModal = () => {
     setInput({
       value: 0,
@@ -197,7 +234,13 @@ export default function ActivityCard({
             alignItems: "center",
           }}
         >
-          <MarkAsDone status={status} id={id} checkedList={checkedList} />
+          <MarkAsDone status={status} activity={activity} />
+          {isPinned && (
+            <PushPinIcon
+              sx={{ color: "primary.main" }}
+              onClick={unpinActivity}
+            />
+          )}
           <Link
             href={`/activity/${slug}`}
             sx={{ color: "black", textDecoration: "none" }}
@@ -215,13 +258,29 @@ export default function ActivityCard({
         ) : null}
       </Typography>
       <Typography>{categoryName}</Typography>
-      <InputForm
-        visible={input.visible}
-        onSave={(val) => addValue(val)}
-        onCancel={() => setInput({ ...input, visible: false })}
-        max={input.max}
-        type={schedule === "quantity" ? "quantity" : "duration"}
-      />
+      <Modal
+        open={input.visible}
+        onClose={() => setInput({ ...input, visible: false })}
+        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            background: "white",
+            minWidth: 240,
+            padding: 8,
+          }}
+        >
+          <InputForm
+            visible={input.visible}
+            onSave={(val) => addValue(val)}
+            onCancel={() => setInput({ ...input, visible: false })}
+            max={input.max}
+            unit={activity.unit}
+            type={schedule === "quantity" ? "quantity" : "duration"}
+          />
+        </Box>
+      </Modal>
       <ScheduleRender
         activity={activity}
         status={status}

@@ -16,6 +16,13 @@ const sortByDate = (a: ExtendedActivity, b: ExtendedActivity) => {
   const nextDueDate = b.dueDate ?? dayjs();
   return initDueDate.valueOf() - nextDueDate.valueOf();
 };
+
+const sortTodo = (a: ExtendedActivity, b: ExtendedActivity) => {
+  if (a.isPinned && b.isPinned) return 0;
+  if (a.isPinned) return -1;
+  if (b.isPinned) return 1;
+  return b.priority - a.priority;
+};
 export default function Home() {
   const { categoryMap } = useCategories();
   const { loading, error, activityList } = useActivities();
@@ -73,7 +80,8 @@ export default function Home() {
             <h4>Todo</h4>
             <Masonry columns={masonryColumns}>
               {todo
-                .sort((a, b) => b.priority - a.priority)
+                .sort(sortTodo)
+                .filter((_item, idx) => idx < 5)
                 .map((item) => (
                   <ActivityCard
                     activity={item}

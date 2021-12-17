@@ -29,7 +29,7 @@ const Renderer = ({
   checkedList,
 }: timeRendererProps) => {
   const {
-    user: { uid, runningId },
+    user: { uid, runningId, runningTaskStartTime },
   } = useUser();
   const { activityMap } = useActivities();
   const onComplete = () => {
@@ -52,7 +52,9 @@ const Renderer = ({
         ...timeRecord,
         [currentRecordKey]: totalDuration + currentTime,
       },
-      updated: dayjs().toString(),
+      updated: dayjs(runningTaskStartTime)
+        .add(currentTime, "milliseconds")
+        .toString(),
       checkedList: [...checkedList, dayjs().toString()],
     });
 
