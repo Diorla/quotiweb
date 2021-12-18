@@ -11,6 +11,7 @@ import ViewListIcon from "@mui/icons-material/ViewList";
 import { Typography } from "@mui/material";
 import { Feedback, Help } from "@mui/icons-material";
 import LogoutIcon from "@mui/icons-material/Logout";
+import logOut from "services/logOut";
 
 const DrawerItem = ({
   icon,
@@ -74,7 +75,7 @@ export default function DrawerList({ selected }: { selected: string }) {
         text="Feedback"
         selected={selected === "feedback"}
       />
-      <ListItem button>
+      <ListItem button onClick={logOut}>
         <ListItemIcon>
           <LogoutIcon />
         </ListItemIcon>

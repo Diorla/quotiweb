@@ -10,6 +10,7 @@ import currentRecordKey from "constants/currentRecordKey";
 import updateActivity from "services/updateActivity";
 import { toast } from "react-toastify";
 import { useUser } from "context/userContext";
+import togglePin from "./togglePin";
 
 /**
  * TODO: Reset
@@ -82,12 +83,6 @@ export default function MoreMenu({
     });
   };
 
-  const pinActivity = () => {
-    const { isPinned, id } = activity;
-    updateActivity(uid, { id, isPinned: !isPinned }, () => {
-      handleClose();
-    });
-  };
   const title = schedule === "quantity" ? `Add ${unit}` : "Add time";
   return (
     <div>
@@ -98,7 +93,9 @@ export default function MoreMenu({
         <MoreVertIcon />
       </IconButton>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        <MenuItem onClick={pinActivity}>{isPinned ? "Unpin" : "Pin"}</MenuItem>
+        <MenuItem onClick={() => togglePin(uid, activity)}>
+          {isPinned ? "Unpin" : "Pin"}
+        </MenuItem>
         <Postpone activity={activity} status={status} />
         <MenuItem
           onClick={() => {

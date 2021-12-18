@@ -5,7 +5,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import ActivityStatus from "interfaces/ActivityStatus";
 import Confirm from "../Confirm";
-import { ExtendedActivity } from "views/Home/filterTodo";
+import ExtendedActivity from "interfaces/ExtendedActivity";
 import getDuration from "scripts/getDuration";
 import currentRecordKey from "constants/currentRecordKey";
 import updateActivity from "services/updateActivity";

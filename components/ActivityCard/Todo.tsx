@@ -2,7 +2,7 @@ import { Add, Pause, PlayArrow } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 import { useUser } from "context/userContext";
-import { ExtendedActivity } from "views/Home/filterTodo";
+import ExtendedActivity from "interfaces/ExtendedActivity";
 import Countdown from "./Countdown";
 import { useState } from "react";
 import playActivity from "services/playActivity";

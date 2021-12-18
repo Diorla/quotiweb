@@ -3,16 +3,10 @@ import Activity from "interfaces/Activity";
 import getDueDate from "scripts/getDueDate";
 import isToday from "dayjs/plugin/isToday";
 import Category from "interfaces/Category";
-import ActivityStatus from "interfaces/ActivityStatus";
 import getValueRemaining from "./getValueRemaining";
+import ExtendedActivity from "interfaces/ExtendedActivity";
 dayjs.extend(isToday);
 
-export interface ExtendedActivity extends Activity {
-  dueDate?: dayjs.Dayjs;
-  status?: ActivityStatus;
-  remaining?: number;
-  categoryName?: string;
-}
 export default function filterTodo(
   activities: Activity[],
   CategoryMap: { [key: string]: Category }
@@ -20,9 +14,7 @@ export default function filterTodo(
   const completed: ExtendedActivity[] = [];
   const todo: ExtendedActivity[] = [];
   const upcoming: ExtendedActivity[] = [];
-  /**
-   * For category and activity based activity
-   */
+  const laterToday: ExtendedActivity[] = [];
   const noDueDate: ExtendedActivity[] = [];
   let totalTime = 0;
   let totalQuantity = 0;
@@ -43,8 +35,9 @@ export default function filterTodo(
         if (schedule === "quantity") totalQuantity += remaining;
         else totalTime += remaining;
         if (dueDate.isAfter(dayjs()))
-          upcoming.push({
+          laterToday.push({
             ...activity,
+            remaining,
             categoryName,
             priority,
             dueDate,
@@ -73,5 +66,6 @@ export default function filterTodo(
     noDueDate,
     totalQuantity,
     totalTime,
+    laterToday,
   };
 }

@@ -4,25 +4,14 @@ import masonryColumns from "constants/masonryColumns";
 import { useActivities } from "context/activityContext";
 import { useCategories } from "context/categoryContext";
 import convertMsToHMS from "scripts/convertMSToHMS";
-import filterTodo, { ExtendedActivity } from "./filterTodo";
+import filterTodo from "./filterTodo";
 import HourglassTopIcon from "@mui/icons-material/HourglassTop";
 import LineWeightIcon from "@mui/icons-material/LineWeight";
 import { Grid } from "@mui/material";
 import CardSkeleton from "components/CardSkeleton";
-import dayjs from "dayjs";
+import sortByDate from "./sortByDate";
+import sortTodo from "./sortTodo";
 
-const sortByDate = (a: ExtendedActivity, b: ExtendedActivity) => {
-  const initDueDate = a.dueDate ?? dayjs();
-  const nextDueDate = b.dueDate ?? dayjs();
-  return initDueDate.valueOf() - nextDueDate.valueOf();
-};
-
-const sortTodo = (a: ExtendedActivity, b: ExtendedActivity) => {
-  if (a.isPinned && b.isPinned) return 0;
-  if (a.isPinned) return -1;
-  if (b.isPinned) return 1;
-  return b.priority - a.priority;
-};
 export default function Home() {
   const { categoryMap } = useCategories();
   const { loading, error, activityList } = useActivities();
@@ -40,12 +29,10 @@ export default function Home() {
   }
   if (error) return <div>Error</div>;
   if (activityList.length) {
-    const { completed, todo, upcoming, totalQuantity, totalTime } = filterTodo(
-      activityList,
-      categoryMap
-    );
+    const { completed, todo, upcoming, totalQuantity, totalTime, laterToday } =
+      filterTodo(activityList, categoryMap);
     const { hh, mm, ss } = convertMsToHMS(totalTime);
-    if (todo.length)
+    if (todo.length + laterToday.length)
       return (
         <div>
           <Grid
@@ -76,34 +63,51 @@ export default function Home() {
               <LineWeightIcon /> {totalQuantity}
             </Grid>
           </Grid>
+          {todo.length ? (
+            <div>
+              <h4>Todo</h4>
+              <Masonry columns={masonryColumns}>
+                {todo
+                  .sort(sortTodo)
+                  .filter((_item, idx) => idx < 5)
+                  .map((item) => (
+                    <ActivityCard
+                      activity={item}
+                      status="todo"
+                      key={item.id}
+                      remaining={item.remaining}
+                    />
+                  ))}
+              </Masonry>
+            </div>
+          ) : null}
           <div>
-            <h4>Todo</h4>
+            <h4>Later today</h4>
             <Masonry columns={masonryColumns}>
-              {todo
-                .sort(sortTodo)
-                .filter((_item, idx) => idx < 5)
-                .map((item) => (
-                  <ActivityCard
-                    activity={item}
-                    status="todo"
-                    key={item.id}
-                    remaining={item.remaining}
-                  />
-                ))}
-            </Masonry>
-          </div>
-          <div>
-            <h4>Completed</h4>
-            <Masonry columns={masonryColumns}>
-              {completed.map((item) => (
+              {laterToday.sort(sortTodo).map((item) => (
                 <ActivityCard
                   activity={item}
-                  status="completed"
+                  status="todo"
                   key={item.id}
+                  remaining={item.remaining}
                 />
               ))}
             </Masonry>
           </div>
+          {completed.length ? (
+            <div>
+              <h4>Completed</h4>
+              <Masonry columns={masonryColumns}>
+                {completed.map((item) => (
+                  <ActivityCard
+                    activity={item}
+                    status="completed"
+                    key={item.id}
+                  />
+                ))}
+              </Masonry>
+            </div>
+          ) : null}
           <div>
             <h4>Upcoming</h4>
             <Masonry columns={masonryColumns}>
