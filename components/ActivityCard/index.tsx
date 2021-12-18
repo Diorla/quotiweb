@@ -16,8 +16,29 @@ import pauseActivity from "services/pauseActivity";
 import PushPinIcon from "@mui/icons-material/PushPin";
 import AddTimeModal from "./AddTimeModal";
 import togglePin from "./togglePin";
+import currentRecordKey from "constants/currentRecordKey";
 dayjs.extend(isToday);
 
+const getStyle = (color: string, running: boolean, isPlayed: boolean) => {
+  const style = {
+    padding: 1,
+    minWidth: 240,
+    border: "1px solid transparent",
+  };
+  if (running) {
+    return {
+      ...style,
+      backgroundColor: `${color}1a`,
+      border: `1px solid ${color}`,
+    };
+  }
+  if (isPlayed)
+    return {
+      ...style,
+      backgroundColor: `${color}1a`,
+    };
+  return style;
+};
 export default function ActivityCard({
   activity,
   status = "none",
@@ -33,8 +54,18 @@ export default function ActivityCard({
     user,
     user: { runningId, uid },
   } = useUser();
-  const { name, id, slug, categoryName, color, schedule, unit, isPinned } =
-    activity;
+  const {
+    name,
+    id,
+    slug,
+    categoryName,
+    color,
+    schedule,
+    unit,
+    isPinned,
+    timeRecord = {},
+    quantityRecord = {},
+  } = activity;
   const [input, setInput] = useState({
     visible: false,
     max: 0,
@@ -75,16 +106,11 @@ export default function ActivityCard({
       });
     }
   };
+  let isPlayed = false;
+  if (schedule === "quantity") isPlayed = !!quantityRecord[currentRecordKey];
+  else isPlayed = !!timeRecord[currentRecordKey];
   return (
-    <Card
-      sx={{
-        padding: 1,
-        minWidth: 240,
-        border:
-          runningId === id ? `1px solid ${color}` : `1px solid transparent`,
-        backgroundColor: runningId === id ? `${color}1a` : "transparent",
-      }}
-    >
+    <Card sx={getStyle(color, runningId === id, isPlayed)}>
       <Typography
         sx={{
           display: "flex",

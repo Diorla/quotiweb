@@ -11,6 +11,7 @@ import { Grid } from "@mui/material";
 import CardSkeleton from "components/CardSkeleton";
 import sortByDate from "./sortByDate";
 import sortTodo from "./sortTodo";
+import dayjs from "dayjs";
 
 export default function Home() {
   const { categoryMap } = useCategories();
@@ -37,10 +38,9 @@ export default function Home() {
         <div>
           <Grid
             sx={{
-              alignItems: "center",
-              flexDirection: "row",
               display: "flex",
-              fontSize: 18,
+              justifyContent: "space-between",
+              flexWrap: "wrap",
             }}
           >
             <Grid
@@ -48,20 +48,30 @@ export default function Home() {
                 alignItems: "center",
                 flexDirection: "row",
                 display: "flex",
-                marginRight: 8,
+                fontSize: 18,
               }}
             >
-              <HourglassTopIcon /> {hh}:{mm}:{ss}
+              <Grid
+                sx={{
+                  alignItems: "center",
+                  flexDirection: "row",
+                  display: "flex",
+                  marginRight: 8,
+                }}
+              >
+                <HourglassTopIcon /> {hh}:{mm}:{ss}
+              </Grid>
+              <Grid
+                sx={{
+                  alignItems: "center",
+                  flexDirection: "row",
+                  display: "flex",
+                }}
+              >
+                <LineWeightIcon /> {totalQuantity}
+              </Grid>
             </Grid>
-            <Grid
-              sx={{
-                alignItems: "center",
-                flexDirection: "row",
-                display: "flex",
-              }}
-            >
-              <LineWeightIcon /> {totalQuantity}
-            </Grid>
+            <Grid>{dayjs().format("ddd, DD MMM YYYY")}</Grid>
           </Grid>
           {todo.length ? (
             <div>

@@ -12,5 +12,8 @@ export default function playActivity(user: UserProps, activity: Activity) {
   else
     db.collection("users")
       .doc(uid)
-      .update({ runningId: id, runningTaskStartTime: dayjs().toString() });
+      .set(
+        { runningId: id, runningTaskStartTime: dayjs().toString() },
+        { merge: true }
+      );
 }
