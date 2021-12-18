@@ -78,8 +78,8 @@ export default function Home() {
               <h4>Todo</h4>
               <Masonry columns={masonryColumns}>
                 {todo
-                  .sort(sortTodo)
                   .filter((_item, idx) => idx < 5)
+                  .sort(sortTodo)
                   .map((item) => (
                     <ActivityCard
                       activity={item}
@@ -94,6 +94,17 @@ export default function Home() {
           <div>
             <h4>Later today</h4>
             <Masonry columns={masonryColumns}>
+              {todo
+                .filter((_item, idx) => idx >= 5)
+                .sort(sortTodo)
+                .map((item) => (
+                  <ActivityCard
+                    activity={item}
+                    status="todo"
+                    key={item.id}
+                    remaining={item.remaining}
+                  />
+                ))}
               {laterToday.sort(sortTodo).map((item) => (
                 <ActivityCard
                   activity={item}
