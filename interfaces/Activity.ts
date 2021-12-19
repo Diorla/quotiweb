@@ -46,7 +46,7 @@ export default interface Activity {
    */
   daysOfWeek: number[];
   /**
-   * when repeat is condition, the id and count, the number of times it is activated
+   * when repeat is activity or category, the id and count, the number of times it is activated
    */
   repeatId: string;
   repeatDoneCount: number;

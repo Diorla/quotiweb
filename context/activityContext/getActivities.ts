@@ -19,8 +19,9 @@ export default async function getActivities(
       querySnapshot.forEach((doc: any) => {
         activityList.push(doc.data());
       });
-      Object.entries(activityList).forEach(([key, value]) => {
-        activityMap[key] = value;
+      activityList.forEach((item) => {
+        const { id } = item;
+        activityMap[id] = item;
       });
       setActivityList(activityList);
       setActivityMap(activityMap);

@@ -1,6 +1,5 @@
 import { Grid, IconButton } from "@mui/material";
-
-const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+import weekdays from "constants/weekdays";
 export default function WeekDayPicker({
   value,
   onChange,

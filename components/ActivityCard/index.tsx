@@ -16,6 +16,7 @@ import pauseActivity from "services/pauseActivity";
 import PushPinIcon from "@mui/icons-material/PushPin";
 import AddTimeModal from "./AddTimeModal";
 import togglePin from "./togglePin";
+import UpdateIcon from "@mui/icons-material/Update";
 import currentRecordKey from "constants/currentRecordKey";
 dayjs.extend(isToday);
 
@@ -65,6 +66,7 @@ export default function ActivityCard({
     isPinned,
     timeRecord = {},
     quantityRecord = {},
+    postponeDate,
   } = activity;
   const [input, setInput] = useState({
     visible: false,
@@ -131,6 +133,9 @@ export default function ActivityCard({
               onClick={() => togglePin(uid, activity)}
             />
           )}
+          {postponeDate && dayjs(postponeDate).isToday() ? (
+            <UpdateIcon />
+          ) : null}
           <Link
             href={`/activity/${slug}`}
             sx={{ color: "black", textDecoration: "none" }}
