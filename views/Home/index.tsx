@@ -9,7 +9,6 @@ import HourglassTopIcon from "@mui/icons-material/HourglassTop";
 import LineWeightIcon from "@mui/icons-material/LineWeight";
 import { Grid } from "@mui/material";
 import CardSkeleton from "components/CardSkeleton";
-import sortByDate from "./sortByDate";
 import sortTodo from "./sortTodo";
 import dayjs from "dayjs";
 
@@ -30,7 +29,7 @@ export default function Home() {
   }
   if (error) return <div>Error</div>;
   if (activityList.length) {
-    const { completed, todo, upcoming, totalQuantity, totalTime, laterToday } =
+    const { completed, todo, totalQuantity, totalTime, laterToday } =
       filterTodo(activityList, categoryMap);
     const { hh, mm, ss } = convertMsToHMS(totalTime);
     if (todo.length + laterToday.length)
@@ -129,19 +128,6 @@ export default function Home() {
               </Masonry>
             </div>
           ) : null}
-          <div>
-            <h4>Upcoming</h4>
-            <Masonry columns={masonryColumns}>
-              {upcoming.sort(sortByDate).map((item) => (
-                <ActivityCard
-                  activity={item}
-                  status="upcoming"
-                  key={item.id}
-                  dueDate={item.dueDate}
-                />
-              ))}
-            </Masonry>
-          </div>
         </div>
       );
     return <div>All done for today</div>;

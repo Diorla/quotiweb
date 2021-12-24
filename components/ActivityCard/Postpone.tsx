@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 import ActivityStatus from "interfaces/ActivityStatus";
 import { useUser } from "context/userContext";
 import Activity from "interfaces/Activity";
-import timeToDayJS from "scripts/timeToDayJS";
 import updateActivity from "services/updateActivity";
 import { toast } from "react-toastify";
 import { MenuItem } from "@mui/material";

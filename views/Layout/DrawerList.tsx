@@ -11,6 +11,7 @@ import ViewListIcon from "@mui/icons-material/ViewList";
 import { Typography } from "@mui/material";
 import { Feedback, Help } from "@mui/icons-material";
 import LogoutIcon from "@mui/icons-material/Logout";
+import UpdateIcon from "@mui/icons-material/Update";
 import logOut from "services/logOut";
 
 const DrawerItem = ({
@@ -35,7 +36,7 @@ export default function DrawerList({ selected }: { selected: string }) {
   return (
     <div>
       <Toolbar variant="dense">
-        <Typography>Quotiday</Typography>
+        <Typography variant="h5">Quotiday</Typography>
       </Toolbar>
       <Divider />
       <DrawerItem
@@ -43,6 +44,12 @@ export default function DrawerList({ selected }: { selected: string }) {
         path="/"
         text="Today"
         selected={selected === "today"}
+      />
+      <DrawerItem
+        icon={<UpdateIcon />}
+        path="/upcoming"
+        text="Upcoming"
+        selected={selected === "upcoming"}
       />
       <DrawerItem
         icon={<CategoryIcon />}
