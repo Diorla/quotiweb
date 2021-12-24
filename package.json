@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest --watch",
+    "test:ci": "jest --ci"
   },
   "dependencies": {
     "@date-io/dayjs": "^2.11.0",
@@ -28,10 +30,20 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/faker": "^5.5.9",
     "@types/react": "latest",
     "@types/uuid": "^8.3.3",
+    "babel-jest": "^27.4.5",
     "eslint": "<8.0.0",
     "eslint-config-next": "latest",
+    "eslint-plugin-testing-library": "^5.0.1",
+    "faker": "^5.5.3",
+    "jest": "^27.4.5",
+    "jest-extended": "^1.2.0",
+    "mockdate": "^3.0.5",
     "typescript": "latest"
   }
 }

@@ -33,3 +33,6 @@ serviceAccountKey.json
 
 # vercel
 .vercel
+
+# personal
+/temp

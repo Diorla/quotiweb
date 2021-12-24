@@ -4,14 +4,14 @@ export default function convertHMSToMs({
   ss,
   ms,
 }: {
-  hh?: number | string;
-  mm?: number | string;
-  ss?: number | string;
-  ms?: number | string;
+  hh?: number;
+  mm?: number;
+  ss?: number;
+  ms?: number;
 }): number {
-  const milliseconds = Number(ms || 0);
-  const seconds = Number(ss || 0) * 1000;
-  const minutes = Number(mm || 0) * 1000 * 60;
-  const hours = Number(hh || 0) * 1000 * 60 * 60;
+  const milliseconds = ms || 0;
+  const seconds = (ss || 0) * 1000;
+  const minutes = (mm || 0) * 1000 * 60;
+  const hours = (hh || 0) * 1000 * 60 * 60;
   return hours + minutes + seconds + milliseconds;
 }
