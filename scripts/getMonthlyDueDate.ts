@@ -10,7 +10,7 @@ export default function getMonthlyDueDate(
   const month = dayjs(startDate).month();
   const date = dayjs(startDate).date();
   const remainder = diff % repeatCount;
-  return dayjs()
+  return dayjs(startDate)
     .add(remainder, "month")
     .month(month)
     .date(date)

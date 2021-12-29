@@ -11,7 +11,7 @@ export default function getYearlyDueDate(
   const month = dayjs(startDate).month();
   const date = dayjs(startDate).date();
   const remainder = diff % repeatCount;
-  return dayjs()
+  return dayjs(startDate)
     .add(remainder, "year")
     .year(year)
     .month(month)

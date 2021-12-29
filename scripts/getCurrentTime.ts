@@ -1,7 +1,6 @@
-import dayjs from "dayjs";
+import currentRecordKey from "constants/currentRecordKey";
 
 export default function getCurrentTime(timeRecord: { [key: string]: number }) {
-  const date = dayjs().format("YYYY-MM-DD");
   if (!timeRecord) return 0;
-  return timeRecord[date] || 0;
+  return timeRecord[currentRecordKey] || 0;
 }

@@ -1,9 +1,8 @@
-import dayjs from "dayjs";
+import currentRecordKey from "constants/currentRecordKey";
 
 export default function getCurrentQuantity(quantityRecord: {
   [key: string]: number;
 }) {
-  const date = dayjs().format("YYYY-MM-DD");
   if (!quantityRecord) return 0;
-  return quantityRecord[date] || 0;
+  return quantityRecord[currentRecordKey] || 0;
 }
