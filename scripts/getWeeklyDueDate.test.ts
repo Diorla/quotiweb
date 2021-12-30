@@ -32,8 +32,69 @@ describe("should get weekly due date", () => {
     );
 
     const totalWeeks = Math.ceil(randomNumber / 7);
+
+    console.log({
+      date: date.toString(),
+      today: dayjs().toString(),
+      weekday,
+      startWeek: startDate.week(),
+      todayWeek: date.week(),
+      weekDifference: date.week() - startDate.week(),
+      randomNumber,
+      totalWeeks,
+    });
+
     expect(date.isAfter(dayjs(), "date")).toBe(true);
     expect(date.day()).toBe(weekday);
     expect(date.week() - startDate.week()).toBeLessThanOrEqual(totalWeeks);
+  });
+
+  test("should return today", () => {
+    const startDate = dayjs();
+    const dueDate = getWeeklyDueDate(
+      [startDate.day()],
+      startDate.toString(),
+      1,
+      hour,
+      minute
+    );
+    expect(startDate.isSame(dueDate, "date")).toBe(true);
+
+    const dueDate1 = getWeeklyDueDate(
+      [startDate.day()],
+      startDate.subtract(5).toString(),
+      1,
+      hour,
+      minute
+    );
+    expect(dayjs().isSame(dueDate1, "date")).toBe(true);
+
+    const extraDay = dayjs().day() < 6 ? dayjs().day() + 1 : 0;
+
+    const dueDate2 = getWeeklyDueDate(
+      [startDate.day(), extraDay],
+      startDate.toString(),
+      1,
+      hour,
+      minute
+    );
+    expect(dayjs().isSame(dueDate2, "date")).toBe(true);
+  });
+
+  test("should return next date", () => {
+    const today = dayjs().day();
+    // 0 or today+1 if today is 0, 1, 2, 3, 4, 5 => 1, 2, 3, 4, 5, 6
+    const afterDay = today < 6 ? today + 1 : 0;
+    // 6 or today-1 if today is 1, 2, 3, 4, 5, 6 => 0, 1, 2, 3, 4, 5
+    const beforeDay = today > 0 ? today - 1 : 6;
+    const startDate = dayjs(); // today;
+    const dueDate = getWeeklyDueDate(
+      [beforeDay, afterDay],
+      startDate.toString(),
+      1,
+      hour,
+      minute
+    );
+    expect(dueDate.day()).toBe(afterDay);
   });
 });

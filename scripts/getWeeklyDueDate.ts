@@ -11,21 +11,28 @@ export default function getWeeklyDueDate(
 ) {
   const diff = dayjs().diff(startDate, "week");
   let remainder = diff % repeatCount;
-  const today = dayjs(startDate).day();
+  const today = dayjs().day();
   // Today is one of the day
   if (daysOfWeek.includes(today))
-    return dayjs(startDate).add(remainder, "week").hour(hour).minute(minute);
+    return dayjs().add(remainder, "week").hour(hour).minute(minute);
   const sortedDays = daysOfWeek.sort((a, b) => a - b);
   const maxDay = Math.max(...sortedDays);
   const minDay = Math.min(...sortedDays);
   // Roll to next week (or next x week)
   if (today > maxDay)
-    return dayjs(startDate)
-      .day(minDay)
-      .add(repeatCount, "week")
-      .hour(hour)
-      .minute(minute);
+    return (
+      dayjs()
+        .day(minDay)
+        // if it's this week, remainder will be 0, so next (x) week(s)
+        .add(remainder || repeatCount, "week")
+        .hour(hour)
+        .minute(minute)
+    );
   // Same week
-  const afterDays = sortedDays.filter((item) => item > dayjs(startDate).day());
-  return dayjs(startDate).day(afterDays[0]).hour(hour).minute(minute);
+  const afterDays = sortedDays.filter((item) => item > dayjs().day());
+  return dayjs()
+    .add(remainder, "week")
+    .day(afterDays[0])
+    .hour(hour)
+    .minute(minute);
 }
